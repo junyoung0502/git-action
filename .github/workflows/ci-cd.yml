@@ -69,30 +69,42 @@ jobs:
   deploy:
     needs: build-and-push-image
     runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
 
     steps:
-      - name: Prepare SSH Key
-        run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan -H ${{ secrets.SERVER_HOST }} >> ~/.ssh/known_hosts
+      - uses: actions/checkout@v2
 
-      - name: Deploy to EC2 via Docker Compose
-        run: |
-          ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} << 'EOF'
-            # 1. 작업 디렉토리로 이동
-            cd /home/${{ secrets.SERVER_USER }}
-            
-            # 2. Docker 소켓 권한 보장
-            sudo chmod 666 /var/run/docker.sock
-            
-            # 3. [핵심] 기존 컨테이너 중지 및 삭제 (이름 충돌 방지)
-            docker compose down
-            
-            # 4. 최신 이미지 가져오기
-            docker compose pull
-            
-            # 5. 백그라운드에서 새 컨테이너 실행 (잔여물 정리 옵션 포함)
-            docker compose up -d --remove-orphans
-          EOF
+      # 1. AWS 자격 증명 설정
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      # 2. Task Definition의 Backend 이미지 주소 업데이트
+      - name: Fill in the new Backend image ID in the Amazon ECS task definition
+        id: task-def-be
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        with:
+          task-definition: task-definition.json
+          container-name: community-be # Task Definition 내의 백엔드 컨테이너 이름
+          image: ${{ steps.login-ecr.outputs.registry }}/community-be:latest
+
+      # 3. Task Definition의 Frontend 이미지 주소 업데이트 (이전 단계의 결과물 위에 덮어씀)
+      - name: Fill in the new Frontend image ID in the Amazon ECS task definition
+        id: task-def-fe
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        with:
+          task-definition: ${{ steps.task-def-be.outputs.task-definition }}
+          container-name: community-fe # Task Definition 내의 프론트엔드 컨테이너 이름
+          image: ${{ steps.login-ecr.outputs.registry }}/community-fe:latest
+
+      # 4. 최종 수정된 Task Definition으로 ECS 서비스 업데이트
+      - name: Deploy Amazon ECS task definition
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+        with:
+          task-definition: ${{ steps.task-def-fe.outputs.task-definition }}
+          service: community-service # 실제 생성하신 ECS 서비스 이름
+          cluster: community-cluster # 실제 생성하신 ECS 클러스터 이름
+          wait-for-service-stability: true
