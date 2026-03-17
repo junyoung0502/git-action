@@ -1,0 +1,135 @@
+/* 초기화 */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    font-family: 'Pretendard', sans-serif;
+    background-color: #F4F5F7;
+    min-height: 100vh;
+    padding-top: 60px;
+}
+
+/* --- 헤더 --- */
+.top-header {
+    position: fixed; top: 0; left: 0;
+    width: 100%; height: 60px;
+    background-color: #F4F5F7;
+    border-bottom: 1px solid black;
+    display: flex; justify-content: center; z-index: 100;
+}
+
+.header-wrap {
+    width: 100%; max-width: 600px; height: 100%;
+    display: flex; align-items: center; justify-content: center;
+    position: relative; padding: 0 20px;
+}
+
+.back-btn {
+    position: absolute; left: 20px;
+    background: none; border: none; cursor: pointer; padding: 5px;
+}
+
+.site-logo {
+    font-family: "Sandoll GogoRound", sans-serif;
+    font-size: 24px; color: black;
+}
+
+.profile-icon { position: absolute; right: 20px; cursor: pointer; }
+.user-avatar { width: 32px; height: 32px; border-radius: 50%; }
+
+.dropdown-menu {
+    display: none; position: absolute; top: 45px; right: 0;
+    width: 120px; background-color: #D9D9D9;
+    flex-direction: column; z-index: 200;
+}
+.dropdown-menu.show { display: flex; }
+.menu-item {
+    padding: 10px; text-decoration: none; color: black;
+    font-size: 12px; text-align: center;
+    background-color: #D9D9D9; transition: 0.2s;
+}
+.menu-item:hover { background-color: #E9E9E9; }
+
+/* --- 메인 컨테이너 --- */
+.edit-container {
+    width: 100%; max-width: 600px;
+    margin: 0 auto;
+    padding: 40px 20px 80px 20px;
+}
+
+h2 {
+    text-align: center; font-size: 24px; font-weight: bold;
+    margin-bottom: 40px; color: black;
+}
+
+/* --- 입력 폼 --- */
+.input-group { margin-bottom: 30px; }
+
+.input-group label {
+    display: block; font-weight: bold; font-size: 15px;
+    margin-bottom: 10px; color: black;
+}
+
+/* 제목 Input */
+.input-group input[type="text"] {
+    width: 100%; height: 40px; padding: 0 10px;
+    border: 1px solid black; border-radius: 4px;
+    font-size: 14px; background-color: transparent; outline: none;
+}
+
+/* 내용 Textarea */
+textarea {
+    width: 100%; height: 200px; padding: 10px;
+    border: 1px solid black; border-radius: 4px;
+    font-size: 14px; background-color: transparent;
+    outline: none; resize: none; font-family: 'Pretendard', sans-serif;
+}
+
+/* 헬퍼 텍스트 (빨간색) */
+.helper-text {
+    font-size: 12px; color: #FF0000; margin-top: 5px;
+    font-weight: bold;
+}
+.helper-text.invisible { display: none; }
+
+
+/* --- 파일 업로드 --- */
+.file-upload-wrapper {
+    display: flex; align-items: center; gap: 10px;
+}
+.file-select-btn {
+    display: inline-block; padding: 6px 16px;
+    background-color: #C4C4C4; /* 회색 버튼 */
+    color: black; font-size: 12px; font-weight: bold;
+    border-radius: 4px; cursor: pointer; transition: 0.2s;
+}
+.file-select-btn:hover { background-color: #b0b0b0; }
+
+.hidden { display: none; }
+.file-name { font-size: 14px; color: #000; }
+
+/* --- 버튼 스타일 --- */
+.submit-btn {
+    width: 100%; padding: 12px;
+    background-color: #ACA0EB; /* 비활성 색상 */
+    color: white; border: none; border-radius: 12px;
+    font-size: 16px; font-weight: bold;
+    cursor: default; margin-top: 20px;
+    transition: background-color 0.3s;
+}
+
+/* 활성화 상태 (보라색) */
+.submit-btn.active {
+    background-color: #7F6AEE; 
+    cursor: pointer;
+}
+
+/* --- 토스트 메시지 --- */
+.toast {
+    position: fixed; bottom: 80px; left: 50%;
+    transform: translateX(-50%);
+    background-color: #333; color: white;
+    padding: 10px 20px; border-radius: 20px;
+    font-size: 14px; opacity: 0;
+    transition: opacity 0.5s; pointer-events: none;
+}
+.toast.show { opacity: 1; }

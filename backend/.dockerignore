@@ -1,0 +1,11 @@
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.git/
+.gitignore
+.vscode/
+.env
+
+# 로컬 테스트용 이미지 파일들은 제외 (기본 이미지만 남기고 싶을 경우)
+# public/images/*

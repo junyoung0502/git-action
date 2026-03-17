@@ -1,0 +1,289 @@
+/* 초기화 */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    font-family: 'Pretendard', sans-serif;
+    background-color: #F4F5F7;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding-top: 60px;
+}
+
+/* --- 헤더 --- */
+.top-header {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 60px;
+    background-color: #F4F5F7;
+    border-bottom: 1px solid black; /* 검정 테두리 */
+    display: flex;
+    justify-content: center;
+    z-index: 100;
+}
+
+.header-wrap {
+    width: 100%;
+    max-width: 600px; /* 게시판 너비에 맞춤 */
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center; /* 로고 중앙 */
+    position: relative;
+    padding: 0 20px;
+}
+
+.site-logo {
+    font-family: "Sandoll GogoRound", sans-serif;
+    font-size: 24px; color: black;
+}
+
+/* 우측 상단 프로필 아이콘 */
+.profile-icon {
+    position: absolute;
+    right: 0; /* 355px 박스 기준 오른쪽 끝 */
+    cursor: pointer;
+}
+
+.user-avatar {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+}
+
+.dropdown-menu {
+    display: none; /* 평소에는 숨김 */
+    
+    position: absolute;
+    top: 45px;  /* 아이콘 바로 아래 위치 */
+    right: 0;   /* 오른쪽 정렬 */
+    
+    width: 120px;
+    background-color: #D9D9D9; /* 회색 박스 */
+    
+    flex-direction: column;
+    z-index: 200;
+}
+
+.dropdown-menu.show {
+    display: flex;
+}
+
+.menu-item {
+    padding: 10px;
+    text-decoration: none;
+    color: black;
+    font-size: 12px;
+    text-align: center;
+    background-color: #D9D9D9;
+    transition: 0.2s;
+}
+
+.menu-item:hover {
+    background-color: #E9E9E9;
+}
+
+/* --- 컨테이너 --- */
+.edit-container {
+    width: 355px;
+    padding-top: 40px;
+}
+
+h2 { text-align: center; margin-bottom: 30px; color: black; font-size: 32px; }
+
+/* --- 프로필 사진 --- */
+.profile-section { margin-bottom: 30px; text-align: center; }
+.profile-section label {
+    font-weight: bold; font-size: 15px; display: block; margin-bottom: 10px; color: black; text-align: left;
+}
+
+.profile-upload {
+    display: flex; justify-content: center; position: relative; margin-top: 10px;
+}
+
+.preview-circle {
+    width: 149px; height: 149px;
+    border-radius: 50%;
+    background-color: #C4C4C4;
+    position: relative;
+    overflow: hidden;
+    display: flex; justify-content: center; align-items: center;
+}
+
+.preview-circle img {
+    width: 100%; height: 100%; object-fit: cover;
+    filter: brightness(50%);
+}
+.preview-circle img.hidden { display: none; }
+
+.edit-text {
+    position: absolute;
+    color: white;
+    font-size: 15px;
+    font-weight: bold;
+    border: 1px solid white;
+    border-radius: 20px;
+    padding: 4px 12px;
+    z-index: 2;
+    display: block;
+    pointer-events: none;
+}
+
+
+/* 파일 인풋 */
+#profileImg {
+    position: absolute; 
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    opacity: 0; 
+    cursor: pointer; z-index: 10;
+    border-radius: 50%;
+    margin: 0;
+    padding: 0;
+}
+
+/* --- 입력창 --- */
+.input-group { margin-bottom: 20px; }
+.input-group label {
+    display: block; font-weight: bold; font-size: 15px; margin-bottom: 5px; color: black;
+}
+
+.input-group input {
+    width: 100%; height: 33px;
+    padding: 0 10px;
+    border: 1px solid black; border-radius: 4px;
+    font-size: 14px; background-color: transparent; color: black;
+    outline: none;
+}
+
+/* 읽기 전용 (이메일) 스타일 */
+.input-group input:disabled {
+    background-color: transparent; /* 배경색 유지 */
+    color: black;
+    border: none; /* 테두리 없애기 (선택사항) */
+    padding-left: 0;
+    font-weight: bold; /* 강조 */
+}
+
+/* 헬퍼 텍스트 */
+.helper-text {
+    font-size: 11px; color: #FF0000; margin-top: 4px;
+}
+.helper-text.invisible { display: none; }
+
+/* --- 버튼 --- */
+.submit-btn {
+    width: 100%; padding: 12px;
+    background-color: #ACA0EB; /* 기본 보라색 */
+    color: white;
+    border: none; border-radius: 5px;
+    font-size: 16px; font-weight: bold;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background-color 0.3s;
+}
+.submit-btn:hover { background-color: #7F6AEE; }
+
+/* 회원탈퇴 링크 */
+.withdraw-area {
+    text-align: center; /* 오른쪽 정렬 */
+    margin-top: 20px;
+}
+.withdraw-area a {
+    font-size: 14px;
+    color: #000;
+    text-decoration: none;
+}
+.withdraw-area a:hover { text-decoration: underline; color: #FF0000; }
+
+/* --- 토스트 메시지 (수정 완료 알림) --- */
+.toast {
+    position: fixed;
+    bottom: 50px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #ACA0EB;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-size: 18px;
+    opacity: 0; /* 평소엔 안 보임 */
+    transition: opacity 0.5s;
+    pointer-events: none; /* 클릭 방지 */
+}
+.toast.show { opacity: 1; }
+
+/* 모달 배경 (어두운 막) */
+.modal-overlay {
+    display: none; /* 평소엔 숨김 */
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background-color: rgba(0, 0, 0, 0.4); /* 반투명 검정 */
+    z-index: 1000; /* 가장 위에 */
+    justify-content: center;
+    align-items: center;
+}
+
+/* 모달 박스 (하얀색) */
+.modal-box {
+    background-color: white;
+    padding: 40px 20px;
+    border-radius: 12px;
+    text-align: center;
+    width: 408px;
+    height: 242px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+/* 제목: "회원탈퇴 하시겠습니까?" */
+.modal-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: black;
+    margin-bottom: 25px;
+}
+
+/* 설명: "게시글과 댓글은 삭제됩니다" */
+.modal-desc {
+    font-size: 20px;
+    color: black;
+    margin-bottom: 25px;
+}
+
+/* 버튼들을 감싸는 영역 */
+.modal-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 10px; /* 버튼 사이 간격 */
+}
+
+/* 취소 버튼 (검정) */
+.btn-cancel {
+    width: 127px;
+    height: 44px;
+    padding: 5px 0;
+    background-color: #333333;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+/* 확인 버튼 (연보라) */
+.btn-confirm {
+    width: 127px;
+    height: 44px;
+    padding: 5px 0;
+    background-color: #C4A5FA; /* 이미지와 비슷한 연한 보라색 */
+    color: black;
+    border: none;
+    border-radius: 12px;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.btn-confirm:hover {
+    background-color: #C1B0F5;
+}

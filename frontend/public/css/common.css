@@ -1,0 +1,22 @@
+/* 공통 변수 설정: 나중에 브랜드 색상 변경 시 여기만 수정하면 됩니다. */
+:root {
+    --primary-color: #ACA0EB;    /* 연보라 (비활성) */
+    --primary-active: #7F6AEE;   /* 진보라 (활성) */
+    --bg-color: #F4F5F7;         /* 배경 회색 */
+    --error-color: #FF0000;      /* 에러 빨간색 */
+    --border-color: #000000;     /* 기본 검정 테두리 */
+    --font-main: 'Pretendard', sans-serif;
+}
+
+/* 초기화 로직 통합 */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    font-family: var(--font-main);
+    background-color: var(--bg-color);
+    min-height: 100vh;
+}
+
+/* 유틸리티 클래스: 반복되는 '숨김' 처리 통합 */
+.invisible { display: none !important; }
+.hidden { display: none; }

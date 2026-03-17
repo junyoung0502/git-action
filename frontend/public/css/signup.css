@@ -1,0 +1,230 @@
+/* 초기화 */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    font-family: 'Pretendard', sans-serif;
+    background-color: #F4F5F7;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding-top: 60px; /* 헤더 공간 확보 */
+    padding-bottom: 40px;
+}
+
+/* --- 헤더 스타일 --- */
+.top-header {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 60px;
+    background-color: #F4F5F7;
+    border-bottom: 1px solid black;
+    display: flex;
+    justify-content: center; /* 로고 중앙 정렬 */
+    align-items: center;
+    z-index: 100;
+}
+
+.header-wrap {
+    width: 355px;   /* 본문(로그인박스) 너비와 동일하게 맞춤 */
+    height: 100%;
+    position: relative; /* ★ 이게 있어야 버튼이 이 상자 안을 기준으로 움직임 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+/* .back-btn {
+    position: absolute;
+    left: 20px;
+    background: none; border: none;
+    font-size: 24px; cursor: pointer; color: black;
+} */
+
+
+/* ★ 추가: 본문 너비(355px)와 동일한 헤더 내부 상자 */
+.header-wrap {
+    width: 355px; /* 본문 컨테이너와 너비 일치 */
+    height: 100%;
+    position: relative; /* 자식 요소들의 기준점 */
+    display: flex;
+    align-items: center;
+    justify-content: center; /* 로고 중앙 정렬 */
+}
+
+.site-logo {
+    font-family: "Sandoll GogoRound", sans-serif;
+    font-size: 32px; 
+    color: black;
+    /* 로고가 355px 안에서 정중앙에 오도록 */
+    position: absolute;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    z-index: 0; /* 버튼보다 아래 */
+}
+
+/* --- 뒤로가기 버튼 수정 (SVG 적용) --- */
+.back-btn {
+    /* ★ 위치: 355px 상자의 맨 왼쪽(0)에 딱 붙임 */
+    position: absolute;
+    left: -20px; 
+    
+    /* 배경 제거 및 스타일 */
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    
+    /* 아이콘 정렬 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10; /* 로고보다 위에 */
+}
+
+/* SVG 아이콘 색상 */
+.back-btn svg {
+    fill: black; /* 검정색 적용 */
+    width: 30px; /* 크기 지정 */
+    height: 30px;
+}
+
+/* --- 회원가입 박스 --- */
+.signup-container {
+    background-color: transparent;
+    width: 355px;
+    padding: 40px 0;
+}
+
+h2 { text-align: center; margin-bottom: 30px; color: black; font-size: 32px;}
+
+/* --- 입력창 스타일 --- */
+.input-group { margin-bottom: 20px; }
+
+.input-group label {
+    display: block; font-weight: bold; font-size: 15px; margin-bottom: 5px; color: black;
+}
+
+.input-group input {
+    width: 100%; 
+    height: 33px;
+    padding: 0 10px;
+    border: 1px solid black;
+    border-radius: 4px;
+    font-size: 14px;
+    outline: none;
+    transition: 0.3s;
+    background-color: transparent;
+    color: black;
+}
+
+.input-group input::placeholder {
+    color: black;  /* 안내 문구 검정 */
+    opacity: 1;    /* 흐릿하게 보이는 브라우저 기본 설정 제거 */
+}
+
+
+.input-group input:focus { border-color: black; }
+
+/* 헬퍼 텍스트 */
+.helper-text {
+    font-size: 11px;
+    color: #FF0000;
+    margin-top: 4px;
+    margin-left: 2px;
+}
+
+/* 헬퍼 텍스트 보이지 않게 처리 */
+.helper-text.invisible {
+    display: none; /* 화면에서 아예 자리를 차지하지 않음 */
+}
+
+/* --- 프로필 사진 영역 --- */
+.profile-section { margin-bottom: 30px; }
+.profile-section label { font-weight: bold; font-size: 14px; display: block; margin-bottom: 5px;}
+
+.profile-upload {
+    display: flex; justify-content: center;
+    position: relative; /* 파일 인풋 위치 잡기 위해 */
+    margin-top: 10px;
+}
+
+/* 동그란 미리보기 */
+.preview-circle {
+    width: 149px; 
+    height: 149px;
+    border-radius: 50%;
+    background-color: #C4C4C4;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* 가로 막대기 */
+.preview-circle::before {
+    content: "";
+    position: absolute;
+    width: 24px;
+    height: 1px;
+    background-color: black;
+    border-radius: 2px;
+    z-index: 1;
+}
+/* 세로 막대기 */
+.preview-circle::after {
+    content: '';
+    position: absolute;
+    width: 1px;
+    height: 24px;
+    background-color: black; /* 플러스 색상 */
+    border-radius: 2px;
+    z-index: 1;
+}
+
+.preview-circle.uploaded::before,
+.preview-circle.uploaded::after {
+    display: none;
+}
+
+.preview-circle img {
+    width: 100%; height: 100%; object-fit: cover;
+}
+
+/* 투명한 파일 선택 버튼 (원 위에 덮어씌움) */
+#profileImg {
+    position: absolute;
+    width: 100px; height: 100px;
+    opacity: 0; /* 투명하게 숨김 */
+    cursor: pointer;
+}
+
+/* --- 버튼 스타일 (색상 로직) --- */
+.signup-btn {
+    width: 100%; padding: 12px;
+    background-color: #ACA0EB; /* 기본(비활성) 색상 */
+    color: white;
+    border: none; border-radius: 5px;
+    font-size: 14px; font-weight: bold;
+    cursor: default;
+    margin-top: 10px;
+    transition: background-color 0.3s;
+}
+
+/* 활성화되었을 때 (.active 클래스) */
+.signup-btn.active {
+    background-color: #7F6AEE; /* 활성 색상 */
+    cursor: pointer;
+}
+
+.signup-btn.active:hover {
+    background-color: #6a55d6;
+}
+
+/* 하단 링크 */
+.links { text-align: center; margin-top: 20px; font-size: 14px; }
+.links a { text-decoration: none; color: black; }
+.links a:hover { text-decoration: underline; }

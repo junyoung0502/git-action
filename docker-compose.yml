@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  backend:
+    build: 
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: community-be
+    ports:
+      - "8000:8000"
+    env_file:
+      - ./backend/.env
+    restart: always
+    # 데이터 유실 방지를 위한 볼륨 설정 (이미지 업로드용)
+    volumes:
+      - ./backend/public/images:/app/public/images
+
+  frontend:
+    build: 
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: community-fe
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    restart: always
+
+networks:
+  default:
+    name: community-network
