@@ -88,7 +88,7 @@ jobs:
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
           task-definition: task-definition.json
-          container-name: community-be # Task Definition 내의 백엔드 컨테이너 이름
+          container-name: Backend # Task Definition 내의 백엔드 컨테이너 이름
           image: ${{ steps.login-ecr.outputs.registry }}/community-be:latest
 
       # 3. Task Definition의 Frontend 이미지 주소 업데이트 (이전 단계의 결과물 위에 덮어씀)
@@ -97,7 +97,7 @@ jobs:
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
           task-definition: ${{ steps.task-def-be.outputs.task-definition }}
-          container-name: community-fe # Task Definition 내의 프론트엔드 컨테이너 이름
+          container-name: Frontend # Task Definition 내의 프론트엔드 컨테이너 이름
           image: ${{ steps.login-ecr.outputs.registry }}/community-fe:latest
 
       # 4. 최종 수정된 Task Definition으로 ECS 서비스 업데이트
