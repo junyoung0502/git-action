@@ -66,13 +66,18 @@ jobs:
       - name: Deploy to EC2 via Docker Compose
         run: |
           ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} << 'EOF'
-            # 작업 디렉토리로 이동 (없으면 생성 권장)
+            # 1. 작업 디렉토리로 이동
             cd /home/${{ secrets.SERVER_USER }}
             
-            # Docker 소켓 권한 부여 (필요 시)
+            # 2. Docker 소켓 권한 보장
             sudo chmod 666 /var/run/docker.sock
             
-            # 최신 이미지 풀 및 컨테이너 재실행
+            # 3. [핵심] 기존 컨테이너 중지 및 삭제 (이름 충돌 방지)
+            docker compose down
+            
+            # 4. 최신 이미지 가져오기
             docker compose pull
+            
+            # 5. 백그라운드에서 새 컨테이너 실행 (잔여물 정리 옵션 포함)
             docker compose up -d --remove-orphans
           EOF
